@@ -1,0 +1,64 @@
+<p>
+  <strong>Title:</strong>
+  <%= @idea.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @idea.body %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @idea.user.name %>
+</p>
+
+<p>
+  <strong>Likes:</strong>
+  <%= @idea.likes %>
+</p>
+
+<p>
+  <strong>Members:</strong>
+  <%= @idea.members %>
+</p>
+
+<%= link_to 'Back', ideas_path %>
+
+<h2>Reviews</h2>
+<% @idea.reviews.each do |review| %>
+  <p>
+    <strong>Reviewer:</strong>
+    <%= review.user.name %>
+  </p>
+
+  <p>
+    <strong>Comment:</strong>
+    <%= review.body %>
+  </p>
+
+  <% if user_signed_in? %>
+    <% if review.user_id == current_user.id %>
+      <%= link_to 'Delete Review', [review.idea, review],
+                    method: :delete,
+                    data: { confirm: 'Are you sure?' } %>
+      <%= link_to 'Edit Review', [review.idea, review] %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<h2>Add a review:</h2>
+<%= form_for([@idea, @idea.reviews.build]) do |f| %>
+  <p>
+    <%= f.label :name %>
+    <%= current_user.name %>
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+  </p>
+  <p>
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

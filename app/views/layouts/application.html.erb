@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quiz</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <%= link_to 'Idea Factory', root_path, class: "navbar-brand" %>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><%= link_to 'All Ideas', root_path %></li>
+          <% if user_signed_in? %>
+            <li><%= link_to 'Post New Idea', new_idea_path, remote: true %></li>
+          <% end %>
+        </ul>
+        <% if user_signed_in? %>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Hello <%= current_user.name %></a></li>
+            <li><%= link_to sessions_path, method: :delete, data: {confirm: 'Logout?'} do %>
+                <span class="glyphicon glyphicon-log-out"></span> Logout
+            <% end %></li>
+          </ul>
+        <% else %>
+          <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to new_user_path do %>
+                <span class="glyphicon glyphicon-user"></span> Sign Up
+            <% end %></li>
+            <li><%= link_to new_session_path do %>
+                <span class="glyphicon glyphicon-log-in"></span> Login
+            <% end %></li>
+          </ul>
+        <% end %>
+      </div>
+    </nav>
+
+
+
+
+  </head>
+
+  <body>
+    <%= yield %>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>
